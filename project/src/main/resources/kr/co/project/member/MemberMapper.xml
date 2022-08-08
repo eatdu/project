@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.project.member.MemberMapper">
+	
+	<!-- 회원정보를 DB에 기입하는 xml -->
+	<insert id="insert" parameterType="kr.co.project.member.MemberVO">
+		INSERT INTO member ( 
+			email, pwd, name, gender, birthday, hp, zipcode, addr1, addr2, regdate
+		) VALUES (
+			#{email}, md5(#{pwd}), #{name}, #{gender}, #{birthday}, #{hp}, #{zipcode}, #{addr1}, #{addr2}, NOW()
+		)
+	</insert>
+	
+	<!-- DB에서 email정보를 확인하는 xml -->
+	<select id="emailDupCheck" parameterType="java.lang.String" resultType="int">
+		SELECT COUNT(*) FROM member WHERE email = #{email}
+	</select>	
+	
+	<!-- 로그인(email의 유무를 체크하고 체크된 email과 비밀번호가 같으면 가져옴 -->
+	<select id="loginCheck" parameterType="kr.co.project.member.MemberVO" resultType="kr.co.project.member.MemberVO">
+		SELECT * FROM member WHERE email = #{email} AND pwd = md5(#{pwd})
+	</select>
+	
+	<!-- 이름과 전화번호가 같은 정보(email) 가져오기 -->
+	<select id="findEmail" parameterType="kr.co.project.member.MemberVO" resultType="kr.co.project.member.MemberVO">
+		SELECT * FROM member WHERE hp = #{hp} AND name = #{name}
+	</select>
+	
+	<!-- 이메일과 이름과 전화번호가 같은 정보(비밀번호) 가져오기 -->
+	<select id="findPwd" parameterType="kr.co.project.member.MemberVO" resultType="kr.co.project.member.MemberVO">
+		SELECT * FROM member WHERE email = #{email} AND name = #{name} AND hp = #{hp}
+	</select>
+	
+	<!-- 임시비밀번호를 update -->
+	<update id="updateTempPwd" parameterType="kr.co.project.member.MemberVO">
+		UPDATE member SET pwd = md5(#{pwd})	WHERE email = #{email} AND name = #{name} AND hp = #{hp}
+	</update>
+	
+</mapper>

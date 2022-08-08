@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.project.news.NewsMapper">
+	
+	<!-- 인덱스로 하나의 행 가져오기 -->
+	<select id="view" parameterType="int" resultType="kr.co.project.news.NewsVO">
+		SELECT * FROM news WHERE no = #{no}
+	</select>
+	
+	<!-- 검색 내용에 맞추어 리스트 가져오기 -->
+	<select id="list" parameterType="kr.co.project.news.NewsVO" resultType="kr.co.project.news.NewsVO">
+		SELECT * FROM news
+		<where>
+			<if test="stype != null and stype != ''">
+				<if test="stype != 'all'">
+					 ${stype} LIKE '%${sword}%'
+				</if>
+				<if test="stype == 'all'">
+					title LIKE '%${sword}%' OR content LIKE '%${sword}%'
+				</if>
+			</if>
+		</where>
+		ORDER BY regdate DESC
+		LIMIT ${startIdx},${pageRow}
+	</select>
+	
+	<!-- 해당내용이 포함된 행 카운트 -->
+	<select id="count" parameterType="kr.co.project.news.NewsVO" resultType="java.lang.Integer">
+		SELECT count(*) FROM news  
+		<where>
+			<if test="stype != null and stype != ''">
+				<if test="stype != 'all'">
+					 ${stype} LIKE '%${sword}%'
+				</if>
+				<if test="stype == 'all'">
+					title LIKE '%${sword}%' OR content LIKE '%${sword}%'
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 행삽입 -->
+	<insert id="insert" parameterType="kr.co.project.news.NewsVO">
+		INSERT INTO news (
+			title, content, regdate, viewcount, member_no, filename_org, filename_real
+		) VALUES (
+			#{title}, #{content}, NOW(), 0, 0, #{filename_org}, #{filename_real}
+		)
+	</insert>
+	
+	<!-- idx로 해당행 삭제하기 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM news WHERE no = #{no}
+	</delete>
+	
+	<!-- idx번호로 해당행 제목,내용 수정,파일수정하기 -->
+	<update id="update" parameterType="kr.co.project.news.NewsVO">
+		UPDATE news SET	
+			title = #{title}
+			, content = #{content}
+			<if test="filename_org != null">
+			, filename_org = #{filename_org}
+			, filename_real = #{filename_real}
+			</if>
+		WHERE no = #{no}
+	</update> 
+	
+	<!-- 조회수 +1 카운팅 -->
+	<update id="updateViewcount" parameterType="int">
+		 UPDATE news SET
+		 viewcount = viewcount+1
+		 WHERE no = #{no} 
+	</update>
+	
+	
+	
+</mapper>
