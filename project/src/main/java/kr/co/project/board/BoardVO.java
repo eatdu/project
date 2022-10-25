@@ -1,7 +1,9 @@
 package kr.co.project.board;
 
 import java.sql.Timestamp;
+import java.util.List;
 
+import kr.co.project.comment.CommentVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -34,6 +36,10 @@ public class BoardVO {
 	
 	private String msg;
 	private String url;
+	
+	
+	
+	private List<CommentVO> commentList;
 	
 	public BoardVO() { // 1페이지당 10개의 행이 들어감
 //		this.page = 1;
