@@ -17,38 +17,38 @@ public class ApiBoardController extends BaseController {
 	@Autowired
 	ApiBoardMapper mapper;
 	
-	@GetMapping("/api/test")
-	public ResponseObj test() {
-		BoardVO vo = new BoardVO();
-		vo.setTitle("제목");
-		List<BoardVO> list = new ArrayList<BoardVO>();
-		list.add(vo);
-		vo = new BoardVO();
-		vo.setTitle("제목2");
-		list.add(vo);
-		ResponseObj obj = new ResponseObj();
-		obj.setTotalCount(100);
-		obj.setTotalPage(10);
-		obj.setPage(1);
-		obj.setItmes(list);
-		return obj;
-	}
-	
-	@GetMapping("/api/board/list")
-	public ResponseObj list(Param param) {
-		int totalCount = mapper.count(param);
-		pageProcess(param, totalCount);
-		
-		ResponseObj obj = new ResponseObj();
-		obj.setTotalCount(totalCount);
-		obj.setPage(param.getPage());
-		obj.setSword(param.getSword());
-		obj.setTotalPage(totalPage);
-		obj.setItmes(mapper.list(param));
-		obj.setStartPage(startPage);
-		obj.setEndPage(endPage);
-		obj.setPrev(prev);
-		obj.setNext(next);
-		return obj;
-	}
+//	@GetMapping("/api/test")
+//	public ResponseObj test() {
+//		BoardVO vo = new BoardVO();
+//		vo.setTitle("제목");
+//		List<BoardVO> list = new ArrayList<BoardVO>();
+//		list.add(vo);
+//		vo = new BoardVO();
+//		vo.setTitle("제목2");
+//		list.add(vo);
+//		ResponseObj obj = new ResponseObj();
+//		obj.setTotalCount(100);
+//		obj.setTotalPage(10);
+//		obj.setPage(1);
+//		obj.setItmes(list);
+//		return obj;
+//	}
+//	
+//	@GetMapping("/api/board/list")
+//	public ResponseObj list(Param param) {
+//		int totalCount = mapper.count(param);
+//		pageProcess(param, totalCount);
+//		
+//		ResponseObj obj = new ResponseObj();
+//		obj.setTotalCount(totalCount);
+//		obj.setPage(param.getPage());
+//		obj.setSword(param.getSword());
+//		obj.setTotalPage(totalPage);
+//		obj.setItmes(mapper.list(param));
+//		obj.setStartPage(startPage);
+//		obj.setEndPage(endPage);
+//		obj.setPrev(prev);
+//		obj.setNext(next);
+//		return obj;
+//	}
 }
