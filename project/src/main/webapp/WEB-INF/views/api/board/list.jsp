@@ -11,11 +11,11 @@
 <h2> list 검색</h2>
 <div>
 	<form action="list">
-		<input type="text" name="sword" value="${param.sword}">
+		<input type="text" name="sword" value="${my.sword}">
 		<input type="submit" value="검색">
 	</form>
 </div>
-<c:forEach var="list" items="${my}">
+<c:forEach var="list" items="${my.items}">
 	${list.no },${list.title },${list.member_name}
 </c:forEach>
 </body>

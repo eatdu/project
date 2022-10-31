@@ -30,7 +30,7 @@ public class ApiBoardController extends BaseController {
 		obj.setTotalCount(100);
 		obj.setTotalPage(10);
 		obj.setPage(1);
-		obj.setItmes(list);
+		obj.setItems(list);
 		return obj;
 	}
 	
@@ -44,7 +44,7 @@ public class ApiBoardController extends BaseController {
 		obj.setPage(param.getPage());
 		obj.setSword(param.getSword());
 		obj.setTotalPage(totalPage);
-		obj.setItmes(mapper.list(param));
+		obj.setItems(mapper.list(param));
 		obj.setStartPage(startPage);
 		obj.setEndPage(endPage);
 		obj.setPrev(prev);

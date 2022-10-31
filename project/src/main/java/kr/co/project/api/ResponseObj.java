@@ -19,5 +19,5 @@ public class ResponseObj {
 	private String sword;
 	private String stype;
 	
-	private List<BoardVO> itmes;
+	private List<BoardVO> items;
 }

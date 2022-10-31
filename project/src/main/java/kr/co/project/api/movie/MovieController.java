@@ -2,6 +2,7 @@ package kr.co.project.api.movie;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -79,23 +80,27 @@ public class MovieController {
 	}
 	
 	@GetMapping("/board/list2")
-	public String list3(@RequestParam(name = "sword", required = false) String sword,
-			@RequestParam(name = "page", required = false) Integer page, MovieVO vo, Model model) {
-		String res = MyApi.getRsponse(page, sword);
-		System.out.println(res);
+	public String list3(@RequestParam Map map, Model model) {
+		String res = "";
 		ObjectMapper om = new ObjectMapper();
 		ResponseObject ro = new ResponseObject();
 		try {
-			// JSON에 속성이 있는데 Object에 필드가 없는 경우 에러가 발생
+			res = MyApi.getResponse("http://localhost:8080/project/api/board/list", map);
 			om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			ro = om.readValue(res, new TypeReference<ResponseObject>() {});
+		} catch (Exception e) {
+			System.out.println(res);
+		}
+			
+		try {
+			// JSON에 속성이 있는데 Object에 필드가 없는 경우 에러가 발생
 			// TypeReference는 맨바깥이 배열인 경우
 			//TypeReference<ArrayList<MovieVO>>() {}
 //			ro = om.readValue(res, ResponseObject.class);
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
-		model.addAttribute("my",ro.getItems());
+		model.addAttribute("my",ro);
 		return "api/board/list";
 	}
 }
