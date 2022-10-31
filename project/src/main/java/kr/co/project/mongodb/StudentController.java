@@ -1,5 +1,6 @@
 package kr.co.project.mongodb;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,11 @@ public class StudentController {
 	@ResponseBody
 	public Map<String, Object> insert(@RequestBody Map map){
 		return sdao.insert(map);
+	}
+	
+	@PostMapping("/student/list")
+	@ResponseBody
+	public List<Map> list(@RequestBody Map map) {
+		return sdao.list(map);
 	}
 }

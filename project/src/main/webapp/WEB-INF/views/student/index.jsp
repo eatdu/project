@@ -30,6 +30,27 @@ function insert(){
 		}
 	});
 }
+function search(){
+	var param = {
+			"sword":$("#sword").val()
+	};
+	$.ajax({
+		url:'/project/student/list',
+		method:'post',
+		data: JSON.stringify(param),
+		dataType : 'json',
+		contentType: 'application/json',
+		success:function(res){
+			//console.log(res);
+			var html = '';
+			$.each(res, function(i,v){
+				console.log(i,v);
+				html += v['id']+' '+v['name']+' '+v['age']+'<br>';
+			});
+			$('#listArea').html(html);
+		}
+	})
+}
 </script>
 </head>
 <body>
@@ -38,5 +59,8 @@ function insert(){
 이름 : <input type="text" id="name"><br>
 나이: <input type="text" id="age"><br>
 <input type="button" value="저장" onclick="insert();"><br>
+<p>
+<input type="text" id="sword"><input type="button" value="검색" onclick="search();">
+<div id="listArea"></div>
 </body>
 </html>
